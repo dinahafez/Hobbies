@@ -4,7 +4,12 @@ from flask import request
 import monkey
 import json
 import numpy as np
-
+import os
+from collections import Counter
+import tweepy
+import re
+import csv
+from random import shuffle
 
 @app.route('/')
 def index():
@@ -18,6 +23,74 @@ def input():
   return render_template("input.html")
   
 @app.route('/output')
+def graph3(chartID = 'chart_ID',chart_type = 'pie', chart_height = 500):
+	twitter_user = request.args.get('ID')
+	twitter_self = request.args.get('ID_self')
+	max_topics = 6
+
+	#read user's tweets
+	topics_user=[]
+	rel_user=[]
+	tweets_read=Counter()
+	filename = os.path.join('app','static','%s_tweets_histogram.csv' % twitter_user)
+	print filename
+	with open(filename, 'r') as f:
+		for line in f:
+			tweets_read[line.split(',')[0]] = int(line.split(',')[1])
+	
+	        
+	with open(os.path.join('app','static','%s_tweets_categorized.csv' % twitter_user),'r') as data_file:    
+		tweets_categorized = json.load(data_file)
+		
+	data=[]
+	for topic, count in tweets_read.most_common(max_topics):	
+		topic.strip()
+		s = {}
+		#s['name'] = topic
+		s['y'] = count
+	#	s['drilldown'] =  "cars"
+
+		#get example of texts
+		tweet_scored = tweets_categorized[topic.strip()]
+		relevance = Counter()
+		for l,m in tweet_scored:
+			relevance[ l[0]] = m
+		k = relevance.most_common(1)
+		s['name'] = topic
+		text = k[0][0].encode('utf-8')
+		s['Tweetex'] = text
+		data.append(s)
+		
+		text = k[0][0]
+		
+		print topic,text
+
+
+	
+
+	#print tweets_categorized	
+	chart = {"renderTo": chartID, "type": chart_type, "height": chart_height,}
+	series = [{"name": 'your friend', "data": data}]
+   
+	title = {"text": 'Your friend\'s interests'}
+	xAxis = {"categories":topics_user}
+	#print xAxis
+	yAxis = {"title": {"text": 'relevance'}}
+	
+	
+	
+	return render_template('high.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)
+
+@app.route('/graph')
+def graph(chartID = 'chart_ID', chart_type = 'line', chart_height = 500):
+	chart = {"renderTo": chartID, "type": chart_type, "height": chart_height,}
+	series = [{"name": 'Label1', "data": [1,2,3]}, {"name": 'Label2', "data": [4, 5, 6]}]
+	title = {"text": 'My Title'}
+	xAxis = {"categories": ['xAxis Data1', 'xAxis Data2', 'xAxis Data3']}
+	yAxis = {"title": {"text": 'yAxis Label'}}
+	return render_template('high.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)
+   
+@app.route('/output_old')
 #global prof=[]
 #def call_output(): 
 #	twitter_user = request.args.get('ID')
@@ -123,18 +196,3 @@ def data():
 #	y=np.array([1,2,3,4,5,6])
 #	response = monkey.graph_prices(x,y,'stuff')
 #	return response
-	
-@app.route('/graph')
-def graph(chartID = 'chart_ID', chart_type = 'bar', chart_height = 500):
-	x=[]
-	y=[]
-   	for l,m in prof:
-		x.append(l)
-		y.append(m)
-		
-	chart = {"renderTo": chartID, "type": chart_type, "height": chart_height,}
-	series = [{"name": 'Label1', "data": [1,2,3]}, {"name": 'Label2', "data": [4, 5, 6]}]
-	title = {"text": 'My Title'}
-	xAxis = {"categories": ['xAxis Data1', 'xAxis Data2', 'xAxis Data3']}
-	yAxis = {"title": {"text": 'relevance'}}
-	return render_template('high.html', chartID=chartID, chart=chart, series=series, title=title, xAxis=xAxis, yAxis=yAxis)

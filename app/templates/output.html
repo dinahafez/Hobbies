@@ -26,6 +26,86 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   
+  <script type='text/javascript'>//<![CDATA[
+$(function(){
+var chart = new Highcharts.Chart({
+    chart: {
+        renderTo: 'container1',
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false
+    },
+    title: {
+        text: 'Facebook like'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+        percentageDecimals: 0
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            point: {
+                events: {
+                    click: function(event) {
+                        var options = this.options;
+                        alert('Person who like' + options.name + ' ' + options.personName);
+                    }
+                }
+            },
+            showInLegend: true,
+            dataLabels: {
+                enabled: true,
+                color: '#000000',
+                connectorColor: '#000000',
+
+                formatter: function() {
+                    return '<b>' + this.point.name + '</b>: ' + Math.round(this.percentage) + '%';
+                }
+
+            }
+        }
+    },
+
+    series: [{
+        type: 'pie',
+        name: 'Likes',
+        data: [
+            {
+            name: 'Person1',
+            y: 45,
+            personName: 'someName1'},
+        {
+            name: 'Person2',
+            y: 26.8,
+            personName: 'someName2'},
+        {
+            name: 'Person3',
+            y: 12.8,
+            sliced: true,
+            selected: true,
+            personName: 'someName3'},
+        {
+            name: 'Person4',
+            y: 8.5,
+            personName: 'someName4'},
+        {
+            name: 'Person5',
+            y: 6.2,
+            personName: 'someName5'},
+        {
+            name: 'Person6',
+            y: 0.7,
+            personName: 'someName6'}
+        ]
+
+        }]
+});
+});//]]> 
+
+</script>
+
   </head>
 
   <body>
@@ -80,6 +160,10 @@
 
 
      </div><!-- /.container -->
+<script src="http://code.highcharts.com/stock/highstock.js"></script>
+<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+
+<div id="container1" style="height: 500px; min-width: 500px"></div>
 
     <div class="container">
       <div class="starter-template">
