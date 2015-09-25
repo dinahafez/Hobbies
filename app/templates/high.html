@@ -62,33 +62,51 @@
 
   </div> <!-- /.container-->
 
+  <div class="container">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+
+
+    </div><!-- /.container -->
     <div class="container">
-           <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-      <script src="static/js/bootstrap.min.js"></script>
-
-Example tweet: <input type="text" id="myText"  size='100'>
-
-     </div><!-- /.container -->
-    	
-		<div id={{ chartID|safe }} class="chart" style="height: 300px; width: 800px"></div>
-		<script>
-			var chart_id = {{ chartID|safe }}
-			var series = {{ series|safe }}
-			var title = {{ title|safe }}
-			var xAxis = {{ xAxis|safe }}
-			var yAxis = {{ yAxis|safe }}
-			var chart = {{ chart|safe }}
-		</script>
+		<div id={{ chartID|safe }} class="chart" style="width: 70%; height: 500px; display: inline-block; float: left;"></div>
+			<script>
+				var chart_id = {{ chartID|safe }}
+				var series = {{ series|safe }}
+				var title = {{ title|safe }}
+				var xAxis = {{ xAxis|safe }}
+				var yAxis = {{ yAxis|safe }}
+				var chart = {{ chart|safe }}
+			</script>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
 			<script src="../static/graph.js"></script>
+			<script src="http://code.highcharts.com/stock/highstock.js"></script>
+			<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
 
 
-<script src="http://code.highcharts.com/stock/highstock.js"></script>
-<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+	<div id="textDiv" style="width: 30%; background: #eeeeee; height: 500px; display: inline-block; float: right; visible=false; ">
+		<h2> &nbsp&nbsp&nbsp&nbsp&nbspTweet Examples </h2>
+		<p type="text" id="myText1"  size='100' class="lead"></p>
+		<p type="text" id="myText2"  size='100' class="lead"></p>
+		<p type="text" id="myText3"  size='100' class="lead"></p>
+		<p type="text" id="myText4"  size='100' class="lead"></p>
+	</div>
+</div>
+<div style="background-color:#000000;height:20px;width:100%;"></div>
+<div class = "container">
+	<form  action="/common" method="GET">
+
+<p class ="lead">  </p>
+	<p class ="lead"> &nbsp&nbspNow, lets see how similar the two of you are.</p>
+	<p class ="lead"> &nbsp&nbspPlease enter your twitter profile name &nbsp&nbsp
+	  <input type="text" id="ID_self" name='ID_self' placeholder="username ">&nbsp&nbsp
+	  <button type="submit" class="btn btn-default btn-lg ">Find your common interests!</button>  
+	</p>
+	</form>
+</div>
 
 
-	
 </body>
 
 <script type = "text/javascript" src = "/static/bootstrap.min.js"></script>

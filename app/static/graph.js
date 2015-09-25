@@ -1,5 +1,12 @@
 $(document).ready(function() {
 	$(chart_id).highcharts({
+	legend: {
+            itemStyle: {
+                color: '#000000',
+                fontWeight: 'bold'
+                "fontSize": "20px",
+            }
+        },
 		chart: chart,
 		title: title,
 		xAxis: xAxis,
@@ -10,6 +17,7 @@ $(document).ready(function() {
         percentageDecimals: 0
         },	
     plotOptions: {
+    	
         pie: {
             allowPointSelect: true,
             cursor: 'pointer',
@@ -18,7 +26,21 @@ $(document).ready(function() {
                     click: function(event) {
                         var options = this.options;
                        
-                        document.getElementById("myText").value = options.Tweetex;
+                        //document.getElementById("myText").value = options.Tweetex;
+                        if(options.Tweetex1 != undefined){
+                        	document.getElementById("myText1").innerHTML = options.Tweetex1; 
+                        }
+                        if(options.Tweetex2 != undefined){
+                        	document.getElementById("myText2").innerHTML = options.Tweetex2; 
+                        }
+                        if(options.Tweetex3 != undefined){
+                        	document.getElementById("myText3").innerHTML = options.Tweetex3; 
+                        }
+                        if(options.Tweetex4 != undefined){
+                        	document.getElementById("myText4").innerHTML = options.Tweetex4; 
+                        }
+                    
+                        
                     }
                 }
             },
